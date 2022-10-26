@@ -10,7 +10,10 @@ import subprocess
 import googletrans
 import vk_api
 import re
+import base64
+import io
 from datetime import datetime, timedelta
+from time import sleep
 
 # Указываем ключи доступа, id группы и версию API
 VK_API_ACCESS_TOKEN = '***'
@@ -20,8 +23,8 @@ GROUP_ID = 123
 # api = vk.API(session, v = VK_API_VERSION)
 
 
-def AppendImages(images, direction='horizontal',
-                  bg_color=(255, 255, 255), aligment='center'):
+def Appendmages(images, direction='horizontal',
+                bg_color=(255, 255, 255), aligment='center'):
     """
     Appends images in horizontal/vertical direction.
     Args:
@@ -61,19 +64,22 @@ def AppendImages(images, direction='horizontal',
             offset += im.size[1]
     return new_im
 
+
 def imageCollage():
     # images_top    = map(Image.open, ["tmp/1.png", "tmp/2.png"])
     # images_bottom = map(Image.open, ["tmp/3.png", "tmp/4.png"])
 
     # combo_1 = AppendImages(images_top, direction='horizontal', bg_color=(220, 140, 60))
-    combo_1 = AppendImages([Image.open("tmp/1.png"),Image.open("tmp/2.png")], direction='horizontal', bg_color=(220, 140, 60))
+    combo_1 = AppendImages([Image.open("tmp/1.png"), Image.open("tmp/2.png")],
+                           direction='horizontal', bg_color=(220, 140, 60))
     # combo_2 = AppendImages(images_bottom, direction='horizontal')
-    combo_2 = AppendImages([Image.open("tmp/3.png"),Image.open("tmp/4.png")], direction='horizontal')
+    combo_2 = AppendImages(
+        [Image.open("tmp/3.png"), Image.open("tmp/4.png")], direction='horizontal')
     combo_3 = AppendImages([combo_1, combo_2], direction='vertical')
 
     combo_3.save('tmp/0.png')
-    print("Collage done!")
-    return
+    print("[---] Collage done!")
+
 
 def GetJSONFromHorde(promt, randseed):
 
@@ -92,27 +98,35 @@ def GetJSONFromHorde(promt, randseed):
     }
     url = 'https://stablehorde.net/api/v2/generate/sync'
     headers = {'Content-Type': 'application/json', 'apikey': '0000000000'}
-    print("Waiting for JSON from Stable Horde...")
+    print("[---] Waiting for JSON from Stable Horde...")
     req = requests.post(url, headers=headers, json=jsonrequest)
 
     # print(req.json())
     if req.ok != True:
         print(req)
         print(req.json())
-        raise Exception('API Failed.')
-    with open('req.json', 'w') as f:
-        json.dump(req.json(), f)
-    print("JSON good!")
-    return
+        raise Exception('Horde API returned error response')
+    # with open('req.json', 'w') as f:
+    #     json.dump(req.json(), f)
+    print("[---] JSON good!")
+    return json.dumps(req.json())
+
 
 def processJSONpy(jsonObj):
-    
-    return
+    result = re.findall('(?<=img": ").*?(?=")', jsonObj)
+    i = 1
+    for b64webp in result:
+        img = Image.open(io.BytesIO(base64.b64decode(b64webp)))
+        img.save(f"tmp/{i}.png")
+        i += 1
+    # print(result)
+
 
 def GetRandomPrompt():
     lines = open('dog_prompts.txt').read().splitlines()
     myline = random.choice(lines)
     return myline
+
 
 def NewPost(timestamp, vk, uploads):
     randseed = random.randrange(999999)
@@ -120,41 +134,48 @@ def NewPost(timestamp, vk, uploads):
     translator = googletrans.Translator()
     prompt_translated = translator.translate(prompt, dest='ru').text
 
-    print("Img params:", randseed, prompt, '(', prompt_translated, ')')
+    print("[---] Img params:", randseed, prompt, '(', prompt_translated, ')')
 
-    GetJSONFromHorde(prompt, randseed)
-    subprocess.call(['bash', './processJSON.sh'])
+    reqJson = GetJSONFromHorde(prompt, randseed)
+    # subprocess.call(['bash', './processJSON.sh']) # process JSON using BASH
+    processJSONpy(reqJson)
 
     uploadedIMG1 = uploads.photo_wall(photos=['tmp/1.png'], group_id=216606944)
     uploadedIMG2 = uploads.photo_wall(photos=['tmp/2.png'], group_id=216606944)
     uploadedIMG3 = uploads.photo_wall(photos=['tmp/3.png'], group_id=216606944)
     uploadedIMG4 = uploads.photo_wall(photos=['tmp/4.png'], group_id=216606944)
-    upimg1 = 'photo' + str((uploadedIMG1[0])['owner_id']) + '_' + str((uploadedIMG1[0])['id'])
-    upimg2 = 'photo' + str((uploadedIMG2[0])['owner_id']) + '_' + str((uploadedIMG2[0])['id'])
-    upimg3 = 'photo' + str((uploadedIMG3[0])['owner_id']) + '_' + str((uploadedIMG3[0])['id'])
-    upimg4 = 'photo' + str((uploadedIMG4[0])['owner_id']) + '_' + str((uploadedIMG4[0])['id'])
+    upimg1 = 'photo' + \
+        str((uploadedIMG1[0])['owner_id']) + '_' + str((uploadedIMG1[0])['id'])
+    upimg2 = 'photo' + \
+        str((uploadedIMG2[0])['owner_id']) + '_' + str((uploadedIMG2[0])['id'])
+    upimg3 = 'photo' + \
+        str((uploadedIMG3[0])['owner_id']) + '_' + str((uploadedIMG3[0])['id'])
+    upimg4 = 'photo' + \
+        str((uploadedIMG4[0])['owner_id']) + '_' + str((uploadedIMG4[0])['id'])
 
-    upimgs = ','.join([upimg1,upimg2,upimg3,upimg4])
+    upimgs = ','.join([upimg1, upimg2, upimg3, upimg4])
     # print(upimgs)
-    postMsg = "⭐ Тема: " + prompt_translated + " (" + prompt + ")\n🎲 Сид: " + str(randseed)
-    vk.wall.post(message=postMsg, owner_id=-216606944, from_group=1, attachments=upimgs, publish_date=timestamp, signed=0)
-    return
+    postMsg = "⭐ Тема: " + prompt_translated + \
+        " (" + prompt + ")\n🎲 Сид: " + str(randseed)
+    vk.wall.post(message=postMsg, owner_id=-216606944, from_group=1,
+                 attachments=upimgs, publish_date=timestamp, signed=0)
+    print("[---] Post done")
 
-if __name__ == '__main__':
-    print(" ***  VK AI Dog Pics Poster bot v0.1  ***")
 
-    nextHourDT = datetime.now().replace(microsecond=0, second=0, minute=0) + timedelta(hours=1) # gen nearest hour (as 12:00:00)
+def checkDelayedPosts():
+    nextHourDT = datetime.now().replace(microsecond=0, second=0, minute=0) + \
+        timedelta(hours=1)  # gen nearest hour (as 12:00:00)
     print("[---] Closest hour: ", nextHourDT)
-    nextHourUT = int(nextHourDT.strftime('%s'))# + 3 * 3600
-
-    vk_session = vk_api.VkApi(token='***REMOVED***')
+    nextHourUT = int(nextHourDT.strftime('%s'))  # + 3 * 3600
+    hours = [nextHourUT, nextHourUT + 1 * 3600, nextHourUT + 2 * 3600, nextHourUT + 3 * 3600, nextHourUT + 4 * 3600, nextHourUT + 5 * 3600, nextHourUT + 6 * 3600, nextHourUT + 7 * 3600, nextHourUT + 8 * 3600, nextHourUT + 9 * 3600, nextHourUT + 10 * 3600, nextHourUT + 11 * 3600,
+             nextHourUT + 12 * 3600, nextHourUT + 13 * 3600, nextHourUT + 14 * 3600, nextHourUT + 15 * 3600, nextHourUT + 16 * 3600, nextHourUT + 17 * 3600, nextHourUT + 18 * 3600, nextHourUT + 19 * 3600, nextHourUT + 20 * 3600, nextHourUT + 21 * 3600, nextHourUT + 22 * 3600, nextHourUT + 23 * 3600]
+    vk_session = vk_api.VkApi(
+        token='***REMOVED***')
     vk = vk_session.get_api()
     tools = vk_api.VkTools(vk_session)
     uploads = vk_api.VkUpload(vk_session)
-    postponedPosts = tools.get_all('wall.get', 100, {'owner_id': -216606944, 'filter': 'postponed'})
-
-    hours = [nextHourUT, nextHourUT + 1 * 3600, nextHourUT + 2 * 3600, nextHourUT + 3 * 3600, nextHourUT + 4 * 3600, nextHourUT + 5 * 3600, nextHourUT + 6 * 3600, nextHourUT + 7 * 3600, nextHourUT + 8 * 3600, nextHourUT + 9 * 3600, nextHourUT + 10 * 3600, nextHourUT + 11 * 3600, nextHourUT + 12 * 3600, nextHourUT + 13 * 3600, nextHourUT + 14 * 3600, nextHourUT + 15 * 3600, nextHourUT + 16 * 3600, nextHourUT + 17 * 3600, nextHourUT + 18 * 3600, nextHourUT + 19 * 3600, nextHourUT + 20 * 3600, nextHourUT + 21 * 3600, nextHourUT + 22 * 3600, nextHourUT + 23 * 3600]
-
+    postponedPosts = tools.get_all(
+        'wall.get', 100, {'owner_id': -216606944, 'filter': 'postponed'})
     for hour in hours:
         # print(datetime.utcfromtimestamp(hour))
         matched = False
@@ -163,9 +184,24 @@ if __name__ == '__main__':
             if post['date'] == hour:
                 matched = True
         if matched:
-            print('[###]',datetime.utcfromtimestamp(hour+3600*3), "OK")
+            print('[###]', datetime.utcfromtimestamp(hour+3600*3), "OK")
         else:
-            print('[!!!]',datetime.utcfromtimestamp(hour+3600*3), "BAD, making new post...")
-            NewPost(hour, vk, uploads)            
+            print('[!!!]', datetime.utcfromtimestamp(
+                hour+3600*3), "MISSING, making new post...")
+            NewPost(hour, vk, uploads)
 
     print("[+++] All posts posted!")
+
+
+def main():
+    print(" ***  VK AI Dog Pics Poster bot v0.1  ***")
+
+    while True:
+        print("[###] Checking delayed posts")
+        checkDelayedPosts()
+        print("[###] Waiting 30 minutes")
+        sleep(1800)
+
+
+if __name__ == '__main__':
+    main()
