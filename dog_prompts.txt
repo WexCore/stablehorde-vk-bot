@@ -6,7 +6,6 @@
 10 dogs are running towards a camera
 10 dogs are walking across the river
 10 dogs are walking on a leash in a park
-Dog goes to the aquarium shop
 A ball is thrown by a man and caught by a dog
 A big black dog in the middle is walking
 A big dark dog on top is walking into the bank
@@ -281,6 +280,8 @@ Brown dog walking underwater in a scuba helmet
 Brownish dog eating something red from the common dish
 Brown small dog is strangely crawling on the floor
 Brown white dog crawling on the floor
+Buff dog
+Chonky dog
 Crystal Ball is held by a dog in its mouth
 Dalmatian dog running on a leash on green floor
 Dalmatian dog won the first prize at the dog show
@@ -295,6 +296,7 @@ Dog crouching on the floor upside down
 Dog crouching on the grass growing competition
 Dog crouching on the green floor in the green dimension
 Dog crouching on the sand castle that was just built by a young girl
+Dog digs a big hole
 Dog dreaming of bacon bussiness
 Dog dreaming of festival
 Dog dreaming of fortune
@@ -322,6 +324,15 @@ dog eating underwater
 Dog eating watermelon in the middle
 Dog eating without any food
 Dog enjoying hot springs
+Dog goes to China
+Dog goes to the aquarium shop
+Dog goes to the center of the universe
+Dog goes to the dog circus
+Dog goes to the Hollywood
+Dog goes to the large underground cave
+Dog goes to the meat shop
+Dog goes to the other side of the planet
+Dog goes to the toilet
 Dog has wrong proportions
 Dog in black dress is running to a toilet
 Dog in black dress is running to a toilet super fast
@@ -396,9 +407,11 @@ Dog making disgusting food
 Dog making tasty food for humans
 Dog making the man happy
 Dog making the man sand
+Dog needs to go to the toilet really bad
 Dog objecting in the court of lawn
 Dog on the grass catching butterflies
 Dog playing video games
+Dog plays virtual reality games
 Dog preparing the dough
 Dog printing memes on a printer
 Dog rolling in the snow
@@ -418,6 +431,8 @@ Dog sitting next to a cat and capybara
 Dog sitting next to a girl on the left table
 Dog sitting on the couch
 Dog sitting on the floor
+Dog slides on an icy road
+Dog slides on an icy road into the incoming car
 Dog sliding down a tube
 Dog smells like ramen
 Dog standing on a turtle standing on a llama
@@ -430,6 +445,7 @@ Dog walking on the threadmill
 Dog walking to the vape store
 Dog walking with a woman on the grass
 Dog walking with a woman on the left
+Dog washes his hands
 Dog was in a violent car accident
 Dog with black ear and mouth eating corn
 Dog with black white fur jumping onto a laver
@@ -480,6 +496,7 @@ Guy walking with the dog
 Guy walking with the dog in the training room
 Guy walking with two dogs in the park
 Guy with short hair is eating a hotdog
+John Wick's dog on a way to get revenge in hell
 Large brown dog is walking in the group of the dogs on the right
 Large fuzzy dog is running during dog show
 Left dog climbing like a spider-man
@@ -557,6 +574,7 @@ Small black dog following the group of white dogs
 Small dog is lying inside the cage
 Smallest dog next to the biggest dog
 Spotted dog screaming at the dog convention
+Stick-dog
 The baby wants to eat the dog
 The black dog is running with a diamond in its mouth
 The black dog is running with a laptop in its mouth
@@ -568,17 +586,47 @@ The brightest dog is crawling in the darkest maze
 The brown and black dog are running after the thief
 The brown dog is chasing another dog because he took his bone
 The cat is eating sausages near the dog
+The clouds form in the shape of a dog
 The deflated ball is being carried by a dog
+The dog at the peak of a highest mountain in the world
+The dog contacts alien race
+The dog does not want to take medication
+The dog drives a bus
+The dog eats seafood
 The dog follows the man in a dog costume
+The dog gets abducted by an UFO
+The dog goes to the rock concert
+The dog has 10 sunglasses on
+The dog has a family
+The dog has angel wings
 The dog has been squashed by an anvil
+The dog has crashed
+The dog has schizophrenia
+The dog in a sunset
 The dog in the middle is walking like a drunk man
 The dog is a baby food
 The dog is a ballet dancer
+The dog is a basketball superstar
+The dog is a boxing pro
+The dog is actually an alien
+The dog is actually a statue
+The dog is a florist
 The dog is among us
 The dog is a movie character
+The dog is an oracle
+The dog is a parkour master
+The dog is a policeman
+The dog is a proffesional photographer
+The dog is astronomer
 The dog is a superhero
+The dog is a tennis pro
 The dog is a theatre actor
+The dog is bald
+The dog is barking
+The dog is barking too loud, so the cops called the policeman
+The dog is barking very loud
 The dog is being chased by a cat
+The dog is being sad over the missing food
 The dog is being walked
 The dog is being walked by a baby
 The dog is being walked like a spoiled child
@@ -586,6 +634,7 @@ The dog is being walked on a leash
 The dog is British royal pet
 The dog is catching an old soccer ball
 The dog is catching the frisbee
+The dog is cooking blue ice
 The dog is crawling
 The dog is crawling along in the grass
 The dog is crawling along on its belly
@@ -601,6 +650,12 @@ The dog is eating corn on the cob
 The dog is eating dog food
 The dog is eating out of someone elses bowl
 The dog is flying like a spider-man
+The dog is flying on a hot air baloon
+The dog is having difficulty wiring up high voltage wires
+The dog is having difficulty with doing homework
+The dog is having difficulty with making dinner
+The dog is having difficulty with spousal situation
+The dog is hitchhiking
 The dog is holding a tug toy
 The dog is hopping up into the netted tree
 The dog is jumping in anger
@@ -609,10 +664,13 @@ The dog is jumping rope
 The dog is laying down on the floor and licking its nose
 The dog is leaping to grab a frisbee in the man's hand
 The dog is licking every cat he sees
+The dog is making the planet Earth move
 The dog is not the dog
 The dog is participating in a dog show
 The dog is participating in an agility event
 The dog is playing on a trampoline
+The dog is rolling a globe
+The dog is rolling down the stairs
 The dog is rolling on the grass
 The dog is rolling over infinitely
 The dog is rolling over in the heaven
@@ -620,14 +678,17 @@ The dog is rolling over the bed
 The dog is running alongside the man
 The dog is running cold
 The dog is running early for the work
+The dog is running inside the hamsters wheel
 The dog is running on a dock
 The dog is running on a golf course
 The dog is running on some grass
 The dog is running the bussiness
 The dog is running with another dog
+The dog is sinking on a boat
 The dog is sniffing a tree
 The dog is sniffing the butt of another dog
 The dog is standing behind a cat
+The dog is throwing the trash out of the window
 The dog is trotting alongside its owner
 The dog is walking alongside its trainer
 The dog is walking iinside the wall
@@ -640,10 +701,21 @@ The dog is walking on a treadmill in a fitness club
 The dog is walking on his back paws
 The dog is walking on skates
 The dog is walking on the roof
+The dog is working at the ship building company
 The dog jumping near the house corner
 The dog looks like a king
+The dog might have impostor syndrome
+The dog might have Stockholm syndrome
+The dog murders a cat
+The dog radiates green due to radiation
 The dog running through different obstacles
+The dog supplies the whole city with bananas
+The dog takes medication
 The dog trainer is trying to teach a card trick to the dog
+The dog wears diving gear
+The dog with 8 paws
+The dog witnessing solar eclipse
+The dog works in accounting
 The fluffy white dog is running on a dirtiest road
 The guy throwing disc to the dog
 The kid is running with the dog
@@ -676,6 +748,9 @@ The white dog on the right is walking
 The woman is walking two dogs but not holding their leashes
 Toy dog is lying on the floor smeared in ketchup
 Very cute dog slowly crawling on the floor
+Very fat dog
+Very skinny dog
+Wealthy dog dreams of being homeless
 White and brown dog are running late for the work
 White and brown dog eating agressively
 White black dog is walking near the car
