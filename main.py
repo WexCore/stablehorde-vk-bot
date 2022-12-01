@@ -7,7 +7,8 @@ import random
 import requests
 import json
 import subprocess
-import googletrans
+# import googletrans
+from yandexfreetranslate import YandexFreeTranslate
 import vk_api
 import re
 import base64
@@ -19,6 +20,8 @@ from time import sleep
 VK_API_ACCESS_TOKEN = '***'
 VK_API_VERSION = '5.95'
 GROUP_ID = 123
+
+NEGATIVE_PROMPT = "ugly, mutated, morbid, mutilated, out of frame, extra limbs, gross proportions, cross-eyed, oversaturated, ugly, 3d, grain, low-res, kitsch"
 # session = vk.Session(access_token = VK_API_ACCESS_TOKEN)
 # api = vk.API(session, v = VK_API_VERSION)
 
@@ -82,18 +85,26 @@ def imageCollage():
 
 
 def GetJSONFromHorde(promt, randseed):
-
+    # dpmsolver + stable_diffusion_2.0
+    # k_euler_a + stable_diffusion
     jsonrequest = {
-        "prompt": promt,
+        "prompt": promt + "###" + NEGATIVE_PROMPT,
         "params": {
-            "sampler_name": "k_lms",
+            "sampler_name": "k_euler_a",
             "cfg_scale": 8,
             "seed": str(randseed),
             "height": 512,
             "width": 512,
             "seed_variation": 1,
-            "steps": 50,
-            "n": 4
+            "steps": 30,
+            "n": 4,
+            "karras": True,
+            "post_processing": [
+                "GFPGAN"
+            ],
+            "models": [
+                "stable_diffusion"
+            ]
         }
     }
     url = 'https://stablehorde.net/api/v2/generate/sync'
@@ -131,8 +142,8 @@ def GetRandomPrompt():
 def NewPost(timestamp, vk, uploads):
     randseed = random.randrange(999999)
     prompt = GetRandomPrompt()
-    translator = googletrans.Translator()
-    prompt_translated = translator.translate(prompt, dest='ru').text
+    translator = YandexFreeTranslate(api = "ios")
+    prompt_translated = translator.translate("en", "ru", prompt)
 
     print("[---] Img params:", randseed, prompt, '(', prompt_translated, ')')
 
@@ -194,7 +205,7 @@ def checkDelayedPosts():
 
 
 def main():
-    print(" ***  VK AI Dog Pics Poster bot v0.1  ***")
+    print(" ***  VK AI Dog Pics Poster bot v0.2  ***")
 
     while True:
         print("[###] Checking delayed posts")
