@@ -141,9 +141,9 @@ def GetRandomPrompt():
 
 def NewPost(timestamp, vk, uploads):
     randseed = random.randrange(999999)
-    prompt = GetRandomPrompt()
+    prompt = GetRandomPrompt().capitalize()
     translator = YandexFreeTranslate(api = "ios")
-    prompt_translated = translator.translate("en", "ru", prompt)
+    prompt_translated = translator.translate("en", "ru", prompt).capitalize()
 
     print("[---] Img params:", randseed, prompt, '(', prompt_translated, ')')
 
