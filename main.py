@@ -21,7 +21,8 @@ VK_API_ACCESS_TOKEN = '***'
 VK_API_VERSION = '5.95'
 GROUP_ID = 123
 
-NEGATIVE_PROMPT = "ugly, mutated, morbid, mutilated, out of frame, extra limbs, gross proportions, cross-eyed, oversaturated, ugly, 3d, grain, low-res, kitsch"
+NEGATIVE_PROMPT = ""
+# NEGATIVE_PROMPT = "ugly, mutated, morbid, mutilated, out of frame, extra limbs, gross proportions, cross-eyed, oversaturated, ugly, 3d, grain, low-res, kitsch"
 # session = vk.Session(access_token = VK_API_ACCESS_TOKEN)
 # api = vk.API(session, v = VK_API_VERSION)
 
@@ -91,36 +92,62 @@ def GetJSONFromHorde(promt, randseed):
         "prompt": promt + "###" + NEGATIVE_PROMPT,
         "params": {
             "sampler_name": "k_euler_a",
+            "trusted_workers": False,
             "cfg_scale": 8,
             "seed": str(randseed),
             "height": 512,
             "width": 512,
-            "seed_variation": 1,
+            "seed_variation": 23,
             "steps": 30,
             "n": 4,
             "karras": True,
-            "post_processing": [
-                "GFPGAN"
-            ],
+            # "post_processing": [
+            #     "GFPGAN"
+            # ],
             "models": [
                 "stable_diffusion"
             ]
         }
     }
-    url = 'https://stablehorde.net/api/v2/generate/sync'
+    url = 'https://stablehorde.net/api/v2/generate/async'
     headers = {'Content-Type': 'application/json', 'apikey': '0000000000'}
-    print("[---] Waiting for JSON from Stable Horde...")
-    req = requests.post(url, headers=headers, json=jsonrequest)
+    print("[---] Waiting for JSON from Stable Horde", end='', flush=True)
+    submit_req = requests.post(url, headers=headers, json=jsonrequest)
+    if submit_req.ok:
+        submit_results = submit_req.json()
+        req_id = submit_results['id']
+        is_done = False
+        while not is_done:
+            chk_req = requests.get(f'https://stablehorde.net/api/v2/generate/check/{req_id}')
+            if not chk_req.ok:
+                # logger.error(chk_req.text)
+                # print(chk_req.text)
+                
+                print("check request failed!")
+                return
+            chk_results = chk_req.json()
+            print(chk_results)
+            is_done = chk_results['done']
+            print(".", end='', flush=True)
+            time.sleep(10)
+        print("")
+        retrieve_req = requests.get(f'https://stablehorde.net/api/v2/generate/status/{req_id}')
+        if not retrieve_req.ok:
+            # logger.error(retrieve_req.text)
+            print("retrieve request failed!")
 
+            return
+        results_json = retrieve_req.json()
     # print(req.json())
-    if req.ok != True:
-        print(req)
-        print(req.json())
+    else:
+        print(submit_req)
+        print(submit_req.json())
         raise Exception('Horde API returned error response')
     # with open('req.json', 'w') as f:
     #     json.dump(req.json(), f)
+    
     print("[---] JSON good!")
-    return json.dumps(req.json())
+    return json.dumps(results_json)
 
 
 def processJSONpy(jsonObj):
